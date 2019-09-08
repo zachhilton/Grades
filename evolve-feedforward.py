@@ -7,58 +7,69 @@ import visualize
 import math
 
 from sklearn.datasets import load_boston
-boston = load_boston()
 
-input_dummy_dumb = boston.data
-input_dummy = []
+#[Gen Ed (0,1), Year level (1,2,3,4), how many credits that semester, which semester I was in (1-8), credits per class]
 
-#LIMITING IT TO ONLY THE IMPORTANT VARIABLES SO MAYBE I HAVE A CHANCE
-i = 0
-while i < 506:
-    input_dummy.append([input_dummy_dumb[i][5], input_dummy_dumb[i][10], input_dummy_dumb[i][12]])
-    i = i + 1
+inputs = [(1,1,16,1,3,),  #Essentials of Christian Thought
+         (1,2,16,1,3,),  #New Testament Survey I
+         (0,1,16,1,3,),  #Intro to Computer Programming
+         (0,1,16,1,1,),  #Lab for ^^
+         (1,1,16,1,3,),  #English Comp
+         (0,1,16,1,3,),  #Music Appreciation
 
+         (1, 2, 15, 2, 3,),  # New Testament Survey II
+         (1, 3, 15, 2, 3,),  # Christian Theo II
+         (1, 1, 15, 2, 3,),  # Spoken Communications
+         (0, 1, 15, 2, 3,),  # Web Design
+         (0, 1, 15, 2, 3,),  # Computer Hardware
+
+         (1, 3, 18, 3, 3,),  # Christian Theo I
+         (0, 4, 18, 3, 3,),  # Gothic
+         (1, 1, 18, 3, 3,),  # Geology
+         (1, 1, 18, 3, 1,),  # Lab for ^^
+
+         (0, 3, 15, 4, 6,),  # Land and the Bible
+         (0, 3, 15, 4, 3,),  # Modern hebrew
+         (0, 3, 15, 4, 3,),  # Jewish thought and culture
+         (1, 3, 15, 4, 3,),  # History of Ancient Israel
+         ]
+
+outputs = [(4,),(4,),(4,),(4,),(3.3,),(4,),
+          (3.7,),(4,),(4,),(4,),(3.7,),
+          (4,),(3.3,),(4,),(3.7,),
+          (3.3,),(4,),(4,),(4,),
+          ]
 
 
 # FEATURE SCALING FOR INPUTS
-highests = []
-varCounter = 0
-while varCounter < 3:
-    i = 0
-    highest = 0
-    while i < 506:
-        if input_dummy[i][varCounter] > highest:
-            highest = input_dummy[i][varCounter]
-        i = i + 1
-    highests.append(highest)
-    varCounter = varCounter + 1
-
-i = 0
-while i < 506:
-    varCounter = 0
-    while varCounter < 3:
-        i = 0
-        while i < 506:
-            input_dummy[i][varCounter] = input_dummy[i][varCounter]/highests[varCounter]
-            i = i + 1
-        varCounter = varCounter + 1
-
-
-x = 0
-boston_inputs = []
-while x < 506:
-    dumbledore = input_dummy[x]
-    boston_inputs.append(tuple(dumbledore))
-    x+=1
-
-
-x = 0
-boston_outputs = []
-while x < 506:
-    dumbledore = boston.target[x]
-    bob = (dumbledore,)
-    boston_outputs.append(bob)
-    x+=1
+# highests = []
+# varCounter = 0
+# while varCounter < 5:
+#     i = 0
+#     highest = 0
+#     while i < 19:
+#         if input[i][varCounter] > highest:
+#             highest = input[i][varCounter]
+#         i = i + 1
+#     highests.append(highest)
+#     varCounter = varCounter + 1
+#
+#
+# varCounter = 0
+# while varCounter < 5:
+#     i = 0
+#     while i < 19:
+#         input[i][varCounter] = input[i][varCounter]/highests[varCounter]
+#         i = i + 1
+#     varCounter = varCounter + 1
+#
+#
+# x = 0
+# boston_inputs = []
+# while x < 506:
+#     dumbledore = input_dummy[x]
+#     boston_inputs.append(tuple(dumbledore))
+#     x+=1
 
 
 
@@ -66,9 +77,9 @@ def eval_genomes(genomes, config):
     for genome_id, genome in genomes:
         genome.fitness = 0
         net = neat.nn.FeedForwardNetwork.create(genome, config)
-        for xi, xo in zip(boston_inputs, boston_outputs):
+        for xi, xo in zip(inputs, outputs):
             output = net.activate(xi)
-            genome.fitness -= ((output[0] - xo[0]) ** 2)/(506)
+            genome.fitness -= ((10*output[0] - 10*xo[0]) ** 2)/(19)
 
 
 def run(config_file):
@@ -95,7 +106,7 @@ def run(config_file):
     # Show output of the most fit genome against training data.
     print('\nOutput:')
     winner_net = neat.nn.FeedForwardNetwork.create(winner, config)
-    for xi, xo in zip(boston_inputs, boston_outputs):
+    for xi, xo in zip(inputs, outputs):
         output = winner_net.activate(xi)
         print("input {!r}, expected output {!r}, got {!r}".format(xi, xo, output))
 
