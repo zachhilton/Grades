@@ -8,109 +8,108 @@ import math
 
 from sklearn.datasets import load_boston
 
-#[Subject 1 (O,1),Subject ME (0,1), Gen Ed (0,1), Year level (1,2,3,4), how many credits that semester, which semester I was in (1-8), credits per class]
+#[Subject 1 (O,1),Subject ME (0,1), Gen Ed (0,1), Year level (1,2,3,4), how many credits over 15 that semester, which semester I was in (1-8), credits per class]
 
 inputs = [
          #SUBJECT 0
-         (0,1,1,1,16,1,3,),  #Essentials of Christian Thought
-         (0,1,1,2,16,1,3,),  #New Testament Survey I
-         (0,1,0,1,16,1,3,),  #Intro to Computer Programming
-         (0,1,0,1,16,1,1,),  #Lab for ^^
-         (0,1,1,1,16,1,3,),  #English Comp
-         (0,1,0,1,16,1,3,),  #Music Appreciation
+         (0,1,1,1,1,1,3,),  #Essentials of Christian Thought
+         (0,1,1,2,1,1,3,),  #New Testament Survey I
+         (0,1,0,1,1,1,3,),  #Intro to Computer Programming
+         (0,1,1,1,1,1,3,),  #English Comp
+         (0,1,0,1,1,1,3,),  #Music Appreciation
 
-         (0,1,1, 2, 15, 2, 3,),  # New Testament Survey II
-         (0,1,1, 3, 15, 2, 3,),  # Christian Theo II
-         (0,1,1, 1, 15, 2, 3,),  # Spoken Communications
-         (0,1,0, 1, 15, 2, 3,),  # Web Design
-         (0,1,0, 1, 15, 2, 3,),  # Computer Hardware
+         (0,1,1, 2, 0, 2, 3,),  # New Testament Survey II
+         (0,1,1, 3, 0, 2, 3,),  # Christian Theo II
+         (0,1,1, 1, 0, 2, 3,),  # Spoken Communications
+         (0,1,0, 1, 0, 2, 3,),  # Web Design
+         (0,1,0, 1, 0, 2, 3,),  # Computer Hardware
 
-         (0,1,1, 3, 18, 3, 3,),  # Christian Theo I
-         (0,1,0, 4, 18, 3, 3,),  # Gothic
-         (0,1,1, 1, 18, 3, 3,),  # Geology
-         (0,1,1, 1, 18, 3, 1,),  # Lab for ^^
+         (0,1,1, 3, 3, 3, 3,),  # Christian Theo I
+         (0,1,0, 4, 3, 3, 3,),  # Gothic
+         (0,1,1, 1, 3, 3, 3,),  # Geology
+         (0,1,1, 1, 3, 3, 1,),  # Lab for ^^
 
-         (0,1,0, 3, 15, 4, 6,),  # Land and the Bible
-         (0,1,0, 3, 15, 4, 3,),  # Modern hebrew
-         (0,1,0, 3, 15, 4, 3,),  # Jewish thought and culture
-         (0,1,1, 3, 15, 4, 3,),  # History of Ancient Israel
+         (0,1,0, 3, 0, 4, 6,),  # Land and the Bible
+         (0,1,0, 3, 0, 4, 3,),  # Modern hebrew
+         (0,1,0, 3, 0, 4, 3,),  # Jewish thought and culture
+         (0,1,1, 3, 0, 4, 3,),  # History of Ancient Israel
 
          #SUBJECT 1
-         (1,0,0,2,15,1,3,),  #Accounting Fundamentals I
-         (1,0,1,1,15,1,3,),  #Old Testament Survey I
-         (1,0,1,1,15,1,3,),  #Essentials of christian Thought
-         (1,0,0,2,15,1,3,),  #Microeconomics
-         (1,0,1,1,15,1,3,),  #World History I
+         (1,0,0,2,0,1,3,),  #Accounting Fundamentals I
+         (1,0,1,1,0,1,3,),  #Old Testament Survey I
+         (1,0,1,1,0,1,3,),  #Essentials of christian Thought
+         (1,0,0,2,0,1,3,),  #Microeconomics
+         (1,0,1,1,0,1,3,),  #World History I
 
-         (1,0,0, 2, 17, 2, 3,),  # Accounting Fund II
-         (1,0,1, 1, 17, 2, 3,),  # World History II
-         (1,0,1, 1, 17, 2, 3,),  # Biology
-         (1,0,1, 1, 17, 2, 1,), # Lab for Biology
-         (1,0,0, 3, 17, 2, 3,),  # Business comunications
-         (1,0,1, 1, 17, 2, 3,),  # Music and Art
+         (1,0,0, 2, 2, 2, 3,),  # Accounting Fund II
+         (1,0,1, 1, 2, 2, 3,),  # World History II
+         (1,0,1, 1, 2, 2, 3,),  # Biology
+         (1,0,1, 1, 2, 2, 1,), # Lab for Biology
+         (1,0,0, 3, 2, 2, 3,),  # Business comunications
+         (1,0,1, 1, 2, 2, 3,),  # Music and Art
 
-         (1,0,0, 3, 15, 3, 3,),  # Accounting Professional Responsibilities
-         (1,0,1, 3, 15, 3, 3,),  # Christian Theo I
-         (1,0,0, 3, 15, 3, 3,),  # Business Law
-         (1,0, 1, 2, 15, 3, 3,),  # English Lit I
-         (1,0,0, 3, 15, 3, 3,),  # Management Theory
+         (1,0,0, 3, 0, 3, 3,),  # Accounting Professional Responsibilities
+         (1,0,1, 3, 0, 3, 3,),  # Christian Theo I
+         (1,0,0, 3, 0, 3, 3,),  # Business Law
+         (1,0, 1, 2, 0, 3, 3,),  # English Lit I
+         (1,0,0, 3, 0, 3, 3,),  # Management Theory
 
-         (1,0,0, 3, 15, 4, 6,),  # Land and the Bible
-         (1,0,0, 3, 15, 4, 3,),  # Modern hebrew
-         (1,0,0, 3, 15, 4, 3,),  # Jewish thought and culture
-         (1,0,1, 3, 15, 4, 3,),  # History of Ancient Israel
+         (1,0,0, 3, 0, 4, 6,),  # Land and the Bible
+         (1,0,0, 3, 0, 4, 3,),  # Modern hebrew
+         (1,0,0, 3, 0, 4, 3,),  # Jewish thought and culture
+         (1,0,1, 3, 0, 4, 3,),  # History of Ancient Israel
          ]
 
-outputs = [(4,),(4,),(4,),(4,),(3.3,),(4,),
-          (3.7,),(4,),(4,),(4,),(3.7,),
-          (4,),(3.3,),(4,),(3.7,),
-          (3.3,),(4,),(4,),(4,),
+outputs = [(97.8,),(93.0,),(102.4,),(88.2,),(96.3,),
+          (88.9,),(93.9,),(97.1,),(95.8,),(91.1,),
+          (94.8,),(88,),(96.2,),(91.1,),
+          (89,),(98.8,),(95.6,),(96.6,),
 
-          (3.7,),(4,),(4,),(3.7,),(4,),
-          (3.7,),(3.7,),(4,),(4,),(4,),(4,),
-          (4,),(4,),(3.7,),(4,),(3,),
-          (3.7,),(3.3,),(4,),(4,),
+          (91,),(95,),(95,),(91,),(95,),
+          (91,),(91,),(95,),(95,),(95,),(95,),
+          (95,),(95,),(91,),(95,),(85,),
+          (91,),(88,),(95,),(95,),
           ]
 
 
 # FEATURE SCALING FOR INPUTS
-input_dummy =[]
-i = 0
-while i < 39:
-    input_dummy.append([inputs[i][0], inputs[i][1], inputs[i][2], inputs[i][3]
-                        , inputs[i][4], inputs[i][5], inputs[i][6]])
-    i = i + 1
-
-
-
-highests = []
-varCounter = 0
-while varCounter < 7:
-    i = 0
-    highest = 0
-    while i < 39:
-        if input_dummy[i][varCounter] > highest:
-            highest = inputs[i][varCounter]
-        i = i + 1
-    highests.append(highest)
-    varCounter = varCounter + 1
-
-
-varCounter = 0
-while varCounter < 7:
-    i = 0
-    while i < 39:
-        input_dummy[i][varCounter] = input_dummy[i][varCounter]/highests[varCounter]
-        i = i + 1
-    varCounter = varCounter + 1
-
-
-x = 0
-inputs = []
-while x < 39:
-    dumbledore = input_dummy[x]
-    inputs.append(tuple(dumbledore))
-    x+=1
+# input_dummy =[]
+# i = 0
+# while i < 39:
+#     input_dummy.append([inputs[i][0], inputs[i][1], inputs[i][2], inputs[i][3]
+#                         , inputs[i][4], inputs[i][5], inputs[i][6]])
+#     i = i + 1
+#
+#
+#
+# highests = []
+# varCounter = 0
+# while varCounter < 7:
+#     i = 0
+#     highest = 0
+#     while i < 39:
+#         if input_dummy[i][varCounter] > highest:
+#             highest = inputs[i][varCounter]
+#         i = i + 1
+#     highests.append(highest)
+#     varCounter = varCounter + 1
+#
+#
+# varCounter = 0
+# while varCounter < 7:
+#     i = 0
+#     while i < 39:
+#         input_dummy[i][varCounter] = input_dummy[i][varCounter]/highests[varCounter]
+#         i = i + 1
+#     varCounter = varCounter + 1
+#
+#
+# x = 0
+# inputs = []
+# while x < 39:
+#     dumbledore = input_dummy[x]
+#     inputs.append(tuple(dumbledore))
+#     x+=1
 
 
 
@@ -120,7 +119,8 @@ def eval_genomes(genomes, config):
         net = neat.nn.FeedForwardNetwork.create(genome, config)
         for xi, xo in zip(inputs, outputs):
             output = net.activate(xi)
-            genome.fitness -= ((10*output[0] - 10*xo[0]) ** 2)/(39)
+            genome.fitness -= abs((output[0] - xo[0])/39)
+
 
 
 def run(config_file):
@@ -138,8 +138,8 @@ def run(config_file):
     p.add_reporter(stats)
     p.add_reporter(neat.Checkpointer(5))
 
-    # Run for up to 100 generations.
-    winner = p.run(eval_genomes, 100)
+    # Run for up to 200 generations.
+    winner = p.run(eval_genomes, 200)
 
     # Display the winning genome.
     print('\nBest genome:\n{!s}'.format(winner))
